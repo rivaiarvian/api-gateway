@@ -1,0 +1,63 @@
+const apiAdapter = require("../../apiAdapter");
+const { URL_SERVICE_MEDIA } = process.env;
+
+const api = apiAdapter(URL_SERVICE_MEDIA);
+
+module.exports = {
+  create: async (req, res) => {
+    try {
+      const media = await api.post("/media", req.body);
+
+      return res.status(200).json({
+        data: media.data,
+      });
+    } catch (error) {
+      if (error.code === "ECONNREFUSED") {
+        return res
+          .status(500)
+          .json({ status: "error", message: "Service unavailable" });
+      }
+      const { status, data } = error.response;
+      return res.status(status).json({
+        data,
+      });
+    }
+  },
+  getAll: async (req, res) => {
+    try {
+      const media = await api.get("/media");
+      return res.status(200).json({
+        data: media.data,
+      });
+    } catch (error) {
+      if (error.code === "ECONNREFUSED") {
+        return res
+          .status(500)
+          .json({ status: "error", message: "Service unavailable" });
+      }
+      const { status, data } = error.response;
+      return res.status(status).json({
+        data,
+      });
+    }
+  },
+  deleted: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const media = await api.delete(`/media/${id}`);
+      return res.status(200).json({
+        data: media.data,
+      });
+    } catch (error) {
+      if (error.code === "ECONNREFUSED") {
+        return res
+          .status(500)
+          .json({ status: "error", message: "Service unavailable" });
+      }
+      const { status, data } = error.response;
+      return res.status(status).json({
+        data,
+      });
+    }
+  },
+};

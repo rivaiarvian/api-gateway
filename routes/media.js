@@ -1,9 +1,9 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
+const { create, getAll, deleted } = require("./handler/media");
 
-/* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.send("media");
-});
+router.get("/", getAll);
+router.post("/", create);
+router.delete("/:id", deleted);
 
 module.exports = router;

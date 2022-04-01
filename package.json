@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "axios": "^0.26.1",
@@ -11,6 +12,20 @@
     "debug": "~2.6.9",
     "dotenv": "^16.0.0",
     "express": "~4.16.1",
-    "morgan": "~1.9.1"
-  }
+    "morgan": "~1.9.1",
+    "nodemon": "^2.0.15"
+  },
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rivaiarvian/api-gateway.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rivaiarvian/api-gateway/issues"
+  },
+  "homepage": "https://github.com/rivaiarvian/api-gateway#readme",
+  "description": ""
 }
