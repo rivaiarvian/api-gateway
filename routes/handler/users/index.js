@@ -2,8 +2,8 @@ const apiAdapter = require("../../apiAdapter");
 const jwt = require("jsonwebtoken");
 const {
   URL_SERVICE_USER,
-  JWT_SERCRET,
-  JWT_SERCRET_REFRESH_TOKEN,
+  JWT_SECRET,
+  JWT_SECRET_REFRESH_TOKEN,
   JWT_ACCESS_TOKEN_EXPIRED,
   JWT_REFRESH_TOKEN_EXPIRED,
 } = process.env;
@@ -35,10 +35,10 @@ module.exports = {
       const user = await api.post("/users/login", req.body);
       const data = user.data.data;
 
-      const token = jwt.sign({ data: data }, JWT_SERCRET, {
+      const token = jwt.sign({ data: data }, JWT_SECRET, {
         expiresIn: JWT_ACCESS_TOKEN_EXPIRED,
       });
-      const refreshToken = jwt.sign({ data: data }, JWT_SERCRET_REFRESH_TOKEN, {
+      const refreshToken = jwt.sign({ data: data }, JWT_SECRET_REFRESH_TOKEN, {
         expiresIn: JWT_REFRESH_TOKEN_EXPIRED,
       });
 
