@@ -80,4 +80,40 @@ module.exports = {
       });
     }
   },
+  getUser: async (req, res) => {
+    try {
+      const id = req.user.data.id;
+      const user = await api.get(`/users/${id}`, req.body);
+      return res.status(200).json(user.data);
+    } catch (error) {
+      if (error.code === "ECONNREFUSED") {
+        return res
+          .status(500)
+          .json({ status: "error", message: "Service unavailable" });
+      }
+      const { status, data } = error.response;
+      return res.status(status).json({
+        data,
+      });
+    }
+  },
+  logout: async (req, res) => {
+    try {
+      const id = req.user.data.id;
+      await api.post(`/users/logout`, { user_id: id });
+      return res
+        .status(200)
+        .json({ status: "success", message: "Refresh token deleted" });
+    } catch (error) {
+      if (error.code === "ECONNREFUSED") {
+        return res
+          .status(500)
+          .json({ status: "error", message: "Service unavailable" });
+      }
+      const { status, data } = error.response;
+      return res.status(status).json({
+        data,
+      });
+    }
+  },
 };
