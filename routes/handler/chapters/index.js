@@ -1,38 +1,19 @@
 const apiAdapter = require("../../apiAdapter");
-const { URL_SERVICE_COURSE,HOSTNAME } = process.env;
+const { URL_SERVICE_COURSE } = process.env;
 
 const api = apiAdapter(URL_SERVICE_COURSE);
 
 module.exports = {
   getAll: async (req, res) => {
     try {
-      const course = await api.get("/api/courses", {
+      const chapters = await api.get(`/api/chapter`,{
         params:{
-          ...req.query,
-          status:'published'
+          ...req.query
         }
       });
-      const coursesData = course.data;
-      const firstPage = coursesData.data.first_page_url.split('?').pop();
-      const lastPage = coursesData.data.last_page_url.split('?').pop();
-
-      coursesData.data.first_page_url = `${HOSTNAME}/courses?${firstPage}`;
-      coursesData.data.last_page_url = `${HOSTNAME}/courses?${lastPage}`;
-
-      if(coursesData.data.next_page_url){
-        const nextPage = coursesData.data.next_page_url.split('?').pop();
-        coursesData.data.next_page_url = `${HOSTNAME}/courses?${nextPage}`;
-      }
-
-      if(coursesData.data.prev_page_url){
-        const prefPage = coursesData.data.prev_page_url.split('?').pop();
-        coursesData.data.prev_page_url = `${HOSTNAME}/courses?${prefPage}`;
-      }
-
-      coursesData.data.path = `${HOSTNAME}/courses`;
 
       return res.status(200).json({
-        data: coursesData,
+        data: chapters.data,
       });
     } catch (error) {
       if (error.code === "ECONNREFUSED") {
@@ -48,11 +29,11 @@ module.exports = {
   },
   getDetail: async (req, res) => {
     try {
-      const {id}=req.params;
-      const course = await api.get(`/api/courses/${id}`);
+      const {id} = req.params;
+      const chapters = await api.get(`/api/chapter/${id}`);
 
       return res.status(200).json({
-        data: course.data,
+        data: chapters.data,
       });
     } catch (error) {
       if (error.code === "ECONNREFUSED") {
@@ -68,10 +49,10 @@ module.exports = {
   },
   create: async (req, res) => {
     try {
-      const course = await api.post("/api/courses", req.body);
+      const chapters = await api.post("/api/chapter", req.body);
 
       return res.status(200).json({
-        data: course.data,
+        data: chapters.data,
       });
     } catch (error) {
       if (error.code === "ECONNREFUSED") {
@@ -88,10 +69,10 @@ module.exports = {
   update: async (req, res) => {
     try {
       const {id} = req.params;
-      const course = await api.put(`/api/courses/${id}`, req.body);
+      const chapters = await api.put(`/api/chapter/${id}`, req.body);
 
       return res.status(200).json({
-        data: course.data,
+        data: chapters.data,
       });
     } catch (error) {
       if (error.code === "ECONNREFUSED") {
@@ -108,10 +89,10 @@ module.exports = {
   destroy: async (req, res) => {
     try {
       const {id} = req.params;
-      const course = await api.delete(`/api/courses/${id}`);
+      const chapters = await api.delete(`/api/chapter/${id}`);
 
       return res.status(200).json({
-        data: course.data,
+        data: chapters.data,
       });
     } catch (error) {
       if (error.code === "ECONNREFUSED") {
