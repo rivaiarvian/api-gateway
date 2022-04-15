@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { getOrder } = require("./handler/order-payment");
+const { create } = require("./handler/webhook");
 
-router.get("/", getOrder);
+router.post("/", create);
 
 module.exports = router;
